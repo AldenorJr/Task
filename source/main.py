@@ -24,7 +24,7 @@ while looping:
                         'author': author,
                         'author_image': author_image,
                         'date': date,
-                        'comment': comentario
+                        'comment': comentario,
                     })
                 looping = False
                 break
