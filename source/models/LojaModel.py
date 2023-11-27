@@ -1,8 +1,13 @@
 class Loja:
-    def __init__(self, name, nota, avaliacoes):
+    def __init__(self, name, nota, avaliacoes, id):
+        self._id = id
         self._name = name
         self._nota = nota
         self._avaliacoes = avaliacoes
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def name(self):
@@ -15,6 +20,10 @@ class Loja:
     @property
     def avaliacoes(self):
         return self._avaliacoes
+
+    @id.setter
+    def id(self, id):
+        self._id = id
 
     @name.setter
     def name(self, name):

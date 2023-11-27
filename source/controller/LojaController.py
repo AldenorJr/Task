@@ -9,6 +9,6 @@ class LojaController:
         data = json.loads(body)
         avaliacoes = data[6][4][8]
         nota = data[6][4][7]
-        name = data[6][122][0][0]
+        name = data[6][11]
         loja = Loja(name, nota, avaliacoes)
         return loja
