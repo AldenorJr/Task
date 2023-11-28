@@ -17,7 +17,6 @@ class LojaDataBase:
         )
         connection.commit()
         cursor.close()
-        connection.close()
     def saveLoja(loja: Loja):
         connection = Connection().openConnection()
         cursor = connection.cursor()
@@ -29,7 +28,6 @@ class LojaDataBase:
         )
         connection.commit()
         cursor.close()
-        connection.close()
     def insertLoja(loja: Loja):
         connection = Connection().openConnection()
         cursor = connection.cursor()
@@ -42,7 +40,6 @@ class LojaDataBase:
         )
         connection.commit()
         cursor.close()
-        connection.close()
         return LojaDataBase.getLojaByName(loja.name)
     def hasLojaByName(name: str):
         connection = Connection().openConnection()
@@ -55,9 +52,7 @@ class LojaDataBase:
         )
         result = cursor.fetchone()
         cursor.close()
-        connection.close()
         return result is not None
-    # recuperar a loja pelo noem
     def getLojaByName(name: str):
         connection = Connection().openConnection()
         cursor = connection.cursor()
@@ -69,7 +64,6 @@ class LojaDataBase:
         )
         result = cursor.fetchone()
         cursor.close()
-        connection.close()
         if result is not None:
             return Loja(result[1], result[2], result[3], result[0])
         return None

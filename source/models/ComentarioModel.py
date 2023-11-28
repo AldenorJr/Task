@@ -1,13 +1,13 @@
 class Comentario:
-    def __init__(self, author, author_image, date, comment, language, rating, loja_id, id):
-        self._id = id
-        self._author = author
-        self._author_image = author_image
-        self._date = date
-        self._comment = comment
-        self._language = language
-        self._rating = rating
-        self._loja_id = loja_id
+    def __init__(self, author, author_image, rating, comment, language, loja_id, date, id):
+        self.author = author
+        self.author_image = author_image
+        self.rating = rating
+        self.comment = comment
+        self.language = language
+        self.loja_id = loja_id
+        self.date = date
+        self.id = id
 
     @property
     def id(self):
