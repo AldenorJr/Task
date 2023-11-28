@@ -1,4 +1,4 @@
-from Connection import Connection
+from database.Connection import Connection
 from models.ComentarioModel import Comentario
 
 class ComentarioDatabase:

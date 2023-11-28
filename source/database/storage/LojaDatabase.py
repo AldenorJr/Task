@@ -1,4 +1,4 @@
-from Connection import Connection
+from database.Connection import Connection
 from models.LojaModel import Loja
 
 class LojaDataBase:
@@ -18,6 +18,18 @@ class LojaDataBase:
         connection.commit()
         cursor.close()
         connection.close()
+    def saveLoja(loja: Loja):
+        connection = Connection().openConnection()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+                UPDATE loja SET nota = %s, avaliacoes = %s WHERE id = %s;
+            """,
+            (loja.nota, loja.avaliacoes, loja.id)
+        )
+        connection.commit()
+        cursor.close()
+        connection.close()
     def insertLoja(loja: Loja):
         connection = Connection().openConnection()
         cursor = connection.cursor()
@@ -31,14 +43,15 @@ class LojaDataBase:
         connection.commit()
         cursor.close()
         connection.close()
-    def hasLoja(loja: Loja):
+        return LojaDataBase.getLojaByName(loja.name)
+    def hasLojaByName(name: str):
         connection = Connection().openConnection()
         cursor = connection.cursor()
         cursor.execute(
             """
-                SELECT * FROM loja WHERE id = %s;
+                SELECT * FROM loja WHERE name = %s;
             """,
-            (loja.id,)
+            (name,)
         )
         result = cursor.fetchone()
         cursor.close()

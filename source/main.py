@@ -9,6 +9,9 @@ from selenium.webdriver.common.keys import Keys
 from controller.ComentarioController import ComentarioController
 from controller.LojaController import LojaController
 
+from database.storage.ComentarioDatabase import ComentarioDatabase
+from database.storage.LojaDatabase import LojaDataBase
+
 from models.LojaModel import Loja
 
 class Main:
@@ -21,13 +24,14 @@ class Main:
 
     def __init__(self):
         self.comentarios = []
-        self.loja = Loja('', 0, 0)
         self.browser = webdriver.Chrome()
+        self.loja = Loja('', 0, 0, 0)
 
     def execute(self, url):
         self.browser.get(url)
         self.footer = self.browser.find_element(By.CSS_SELECTOR, '.cVwbnc')
         self.actions = ActionChains(self.browser).move_to_element_with_offset(self.footer, 0, 0).click()
+        Main.initDatabase()
         looping = True
         while looping:
             time.sleep(randint(0, 3))
@@ -36,10 +40,11 @@ class Main:
             print(len(self.comentarios),'/',str(self.loja.avaliacoes), ' avaliações', self.loja.name)
             if (len(self.comentarios) == self.loja.avaliacoes and self.loja.avaliacoes != 0) or (len(self.comentarios) == 1100):
                 looping = False
-        
-        for coment in comentarios:
-            print(coment.rating, ' ')
+                LojaDataBase.saveLoja(self.loja)
         self.browser.quit()
+    def initDatabase():
+        LojaDataBase.createTable()
+        ComentarioDatabase.createTable()
     def handle(self):
         for request in self.browser.requests:
             if request.response is not None and request.response.body is not None:

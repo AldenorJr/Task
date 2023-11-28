@@ -21,6 +21,6 @@ class ComentarioController:
                 comment = ''
                 language = ''
             avalation = elemento[0][2][0][0]
-            comentario = Comentario(author, author_image, date, comment, language, avalation)
+            comentario = Comentario(author, author_image, date, comment, language, avalation, 0, 0)
             comentarios.append(comentario)
         return comentarios
