@@ -1,5 +1,4 @@
 from seleniumwire import webdriver
-import time
 from random import randint
 
 from selenium.webdriver import ActionChains
@@ -24,7 +23,41 @@ class Main:
 
     def __init__(self):
         self.comentarios = []
-        self.browser = webdriver.Chrome()
+        chrome_options = webdriver.ChromeOptions()
+
+        chrome_option_list = {
+            "disable-extensions",
+            "disable-gpu",
+            "no-sandbox",
+            "headless", # for Jenkins
+            "disable-dev-shm-usage", # Jenkins
+            "window-size=800x600", # Jenkins
+            "window-size=800,600",
+            "disable-setuid-sandbox",
+            "allow-insecure-localhost",
+            "no-cache",
+            "user-data-dir=/tmp/user-data",
+            "hide-scrollbars",
+            "enable-logging",
+            "log-level=0",
+            "single-process",
+            "data-path=/tmp/data-path",
+            "ignore-certificate-errors",
+            "homedir=/tmp",
+            "disk-cache-dir=/tmp/cache-dir",
+            "start-maximized",
+            "disable-software-rasterizer",
+            "ignore-certificate-errors-spki-list",
+            "ignore-ssl-errors",
+        }
+        for chrome_option in chrome_option_list:
+            chrome_options.add_argument(f"--{chrome_option}")
+
+        selenium_options = {
+            "request_storage_base_dir": "/tmp", # Use /tmp to store captured data
+            "exclude_hosts": ""
+        }
+        self.browser = webdriver.Chrome(options=chrome_options, seleniumwire_options=selenium_options)
         self.loja = Loja('', 0, 0, 0)
 
     def execute(self, url):
@@ -34,11 +67,10 @@ class Main:
         Main.databaseInit()
         looping = True
         while looping:
-            time.sleep(randint(0, 3))
             Main.use_scroll(self)
             Main.handle(self)
             print(len(self.comentarios),'/',str(self.loja.avaliacoes), ' avaliações', self.loja.name)
-            if (len(self.comentarios) == int(self.loja.avaliacoes) and self.loja.avaliacoes != 0) or (len(self.comentarios) == 1100):
+            if (len(self.comentarios) == int(self.loja.avaliacoes) and self.loja.avaliacoes != 0) or (len(self.comentarios) >= 1091):
                 looping = False
                 LojaDataBase.saveLoja(self.loja)
         self.browser.quit()
@@ -72,5 +104,4 @@ class Main:
         actions.perform()
 
 main = Main()
-time.sleep(1)
-main.execute('https://www.google.com/maps/place/Nema+Padaria+-+Leblon/@-22.9850962,-43.2264946,15z/data=!4m8!3m7!1s0x9bd51fff4cc717:0x930f8a469526651c!8m2!3d-22.9852248!4d-43.2265298!9m1!1b1!16s%2Fg%2F11r_sq0mzp?entry=ttu')
+main.execute('https://www.google.com/maps/place/Partage+Mossor%C3%B3+Shopping/@-5.1718739,-37.3764656,15z/data=!4m8!3m7!1s0x7ba06b8e9b5b56d:0xf4c6bae42ae65be!8m2!3d-5.1718739!4d-37.3764656!9m1!1b1!16s%2Fg%2F11bbxjc675?entry=ttu')
