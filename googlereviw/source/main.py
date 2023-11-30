@@ -1,17 +1,21 @@
-from seleniumwire import webdriver
-from random import randint
+try:
+    from seleniumwire import webdriver
+    from random import randint
 
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver import ActionChains
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
 
-from controller.ComentarioController import ComentarioController
-from controller.LojaController import LojaController
+    from controller.ComentarioController import ComentarioController
+    from controller.LojaController import LojaController
 
-from database.storage.ComentarioDatabase import ComentarioDatabase
-from database.storage.LojaDatabase import LojaDataBase
+    from database.storage.ComentarioDatabase import ComentarioDatabase
+    from database.storage.LojaDatabase import LojaDataBase
 
-from models.LojaModel import Loja
+    from models.LojaModel import Loja
+    print("All Modules are ok...")
+except ImportError:
+    print("Error in Imports")
 
 class Main:
 
@@ -53,11 +57,7 @@ class Main:
         for chrome_option in chrome_option_list:
             chrome_options.add_argument(f"--{chrome_option}")
 
-        selenium_options = {
-            "request_storage_base_dir": "/tmp", # Use /tmp to store captured data
-            "exclude_hosts": ""
-        }
-        self.browser = webdriver.Chrome(options=chrome_options, seleniumwire_options=selenium_options)
+        self.browser = webdriver.Chrome(options=chrome_options)
         self.loja = Loja('', 0, 0, 0)
 
     def execute(self, url):
@@ -102,6 +102,3 @@ class Main:
         for _ in range(randint(7, 10)):
             actions = actions.send_keys(Keys.PAGE_DOWN)
         actions.perform()
-
-main = Main()
-main.execute('https://www.google.com/maps/place/Partage+Mossor%C3%B3+Shopping/@-5.1718739,-37.3764656,15z/data=!4m8!3m7!1s0x7ba06b8e9b5b56d:0xf4c6bae42ae65be!8m2!3d-5.1718739!4d-37.3764656!9m1!1b1!16s%2Fg%2F11bbxjc675?entry=ttu')

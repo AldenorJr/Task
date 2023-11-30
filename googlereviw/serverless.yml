@@ -1,0 +1,24 @@
+org: aldenor
+app: googlereviw
+service: googlereviw
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.10
+
+plugins:
+  - serverless-python-requirements
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+    layer:
+      name: python-dependency
+      description: "Layer which contains dependency library"
+      compatibleRuntimes:
+        - python3.10
+
+functions:
+  hello:
+    handler: handler.execute
